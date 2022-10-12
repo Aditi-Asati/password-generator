@@ -1,6 +1,10 @@
 # Password Generator
 
 This program creates a password with number of characters as provided by the user. 
+
+It can also generate random pins, and save them too.
+
+
 ## Implementation
 
 The generated password contains atleast one lower case letter, one upper case letter, one digit, and one special character (which are all generated randomly). 
