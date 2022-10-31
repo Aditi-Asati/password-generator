@@ -35,9 +35,6 @@ class PasswordConfig:
 def main():
     conf = PasswordConfig()
 
-    # initializing the password
-    password = ""
-
     account = input("Enter the account for which you want to generate the password: ")
 
     n = int(
@@ -49,6 +46,18 @@ def main():
 
     conf.set_length(n)
 
+    password = generate_password(conf)
+
+    print(password)
+
+    # Storing the created password in a txt file
+    with open("passwords.txt", "a") as f:
+        f.write(password + f" - generated at {datetime.datetime.now()} for {account}\n")
+
+
+def generate_password(conf: PasswordConfig) -> str:
+    # initializing the password
+    password = ""
     validated = False
     while not validated:
         # to ensure that the password has minimum 1 lowercase, uppercase, digit, and character
@@ -64,7 +73,7 @@ def main():
         # randomly filling up the remaining password characters
         char_ranges = conf.get_char_ranges()
 
-        for _ in range(n - ranges_count):
+        for _ in range(conf.password_length - ranges_count):
             char_range = random.choice(char_ranges)
             char = random.choice(char_range)
             password = password + char
@@ -75,16 +84,10 @@ def main():
             validated = False
         else:
             validated = True
-
     # shuffling characters of the password random no of times
     for _ in range(random.randint(3, 10)):
         password = "".join(random.sample(password, len(password)))
-
-    print(password)
-
-    # Storing the created password in a txt file
-    with open("passwords.txt", "a") as f:
-        f.write(password + f" - generated at {datetime.datetime.now()} for {account}\n")
+    return password
 
 
 if __name__ == "__main__":
